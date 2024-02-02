@@ -1,0 +1,34 @@
+- This project management app is for teams
+
+- As a user I would like to create a team.
+
+- As a team leader I would like to add team members.
+- As a team leader I would like to assign others as team leader.
+- As a team leader I would like to create projects.
+- As a team leader I would like to change priority ranking of projects.
+- As a team leader I would like to assign team members to projects.
+- As a team leader I would like to reassign team members to projects.
+- As a team leader I would like to remove projects.
+- As a team leader I would like to remove team members.
+
+- As a team member I would like to see the projects I am assigned to.
+- As a team member I would like to see the tasks assigned to me.
+- As a team member I would like to mark tasks as complete.
+- As a team member I would like to send, receive and archive messages between team members.
+- As a team member I would like to see the team members assigned to a project.
+
+
+- Projects should include details such as: 
+    project name, 
+    description, 
+    start and due date, 
+    stakeholders,
+    status,
+    priority ranking,
+    assigned users,
+    created by,
+    created date,
+    last updated by,
+    last updated date.
+- Projects should consist of one or more tasks.
+- Tasks can be assigned to different people within a team.

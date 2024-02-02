@@ -1,0 +1,30 @@
+{% extends "project/base.html" %}
+{% block content %}
+<h1 class="mb-5">ProFlow</h1>
+<div class="container">
+    {% for project in projects %}
+        <div class="card text-center mx-auto mb-3" style="max-width: 30rem;">
+            {% if project.status == 'Inactive' %}
+                <div class="card-header text-light bg-danger">{{ project.status }}</div>
+            {% elif project.status == "Active" %}
+                <div class="card-header bg-warning">{{ project.status }}</div>
+            {% else %}
+                <div class="card-header bg-success">{{ project.status }}</div>
+            {% endif %}
+            <div class="card-body">
+            <h5 class="card-title">{{ project.name }}</h5>
+            <p class="card-text">{{ project.description }}</p>
+            </div>
+            <div class="card-footer text-body-secondary">
+                {% if project.status == 'Inactive' %}
+                    <small class="text-muted">Starts: {{ project.start_date|date:'dS, F, Y' }}</small>
+                {% elif project.status == "Active" %}
+                    <small class="text-muted">Due: {{ project.due_date|date:'dS, F, Y' }}</small>
+                {% else %}
+                    <small class="text-muted">Completed on: {{ project.due_date|date:'dS, F, Y' }}</small>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock content %}

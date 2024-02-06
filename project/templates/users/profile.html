@@ -5,7 +5,7 @@
     <div class="media">
         <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="200" height="200">
         <div class="media-body">
-            <h2 class="account-heading">{{ user.username }}</h2>
+            <h2 class="account-heading">{{ user.first_name }} {{ user.last_name }} ({{ user.username }})</h2>
             <p class="text-secondary">{{ user.email }}</p>
         </div>
     </div>
@@ -13,8 +13,8 @@
         {% csrf_token %}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Profile Info</legend> <!-- Updated ledgend to display Profile Info -->
-            {{ u_form|crispy }} <!-- Updated to load the user form and let crispy take care of the formating -->
-            {{ p_form|crispy }} <!-- Updated to load the profile form and let crispy take care of the formating -->
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
         </fieldset>
         <div class="form-group">
             <button class="btn btn-outline-info" type="submit">Update</button> <!-- Updated button to display Profile Info -->

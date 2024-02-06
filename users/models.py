@@ -6,6 +6,8 @@ from PIL import Image, ExifTags
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.png', upload_to='profile_pics')
+    first_name = models.CharField(max_length=100, default='')
+    last_name = models.CharField(max_length=100, default='')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

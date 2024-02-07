@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.base import View
@@ -10,6 +11,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Project, Tasks
+from .filters import ProjectFilter
 
 # Create your views here.
 def home(request):
@@ -21,8 +23,13 @@ def home(request):
 class ProjectListView(ListView):
     model = Project
     template_name = 'project/home.html'  # <app>/<model>_<viewtype>.html
-    context_object_name = 'projects'
-    ordering = ['due_date']
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = ProjectFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
 
 class ProjectDetailView(DetailView):
     model = Project

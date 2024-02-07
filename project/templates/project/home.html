@@ -1,8 +1,32 @@
 {% extends "project/base.html" %}
 {% block content %}
-<h1 class="mb-5">ProFlow</h1>
+<div class="row">
+    <div class="col">
+        <h1 class="mb-5">ProFlow</h1>
+    </div>
+    <div class="col text-end">
+        <span class="material-symbols-outlined" style="cursor: pointer;">
+            filter_list
+        </span>
+    </div>
+</div>
+
+{% load crispy_forms_tags %}
+<div class="row filter_list">
+    <div class="col">
+        <form method="GET">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {{ filter.form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="container">
-    {% for project in projects %}
+    {% for project in filter.qs %}
         <div class="card text-center mx-auto mb-3" style="max-width: 30rem;">
             {% if project.status == 'Inactive' or project.status == 'inactive' %}
                 <div class="card-header text-light bg-danger">{{ project.status | capfirst }}</div>

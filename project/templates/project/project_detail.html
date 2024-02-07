@@ -69,11 +69,18 @@
                                 {% endfor %}
                         </div>
                         {% if task.status == "active" %}
-                            <div class="col">
+                            <div class="card-body col">
                                 <form method="post" action="{% url 'task-complete' task.id %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1">Complete</button>
+                                    <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1">
+                                        <span class="material-symbols-outlined">
+                                            select_check_box
+                                        </span>
+                                    </button>
                                 </form>
+                            </div>
+                            <div class="col">
+                                
                             </div>
                         {% elif task.status == "todo" %}
                             <div class="col">

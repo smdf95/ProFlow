@@ -12,6 +12,7 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Project, Tasks
 from .filters import ProjectFilter
+from .forms import ProjectCreateForm
 
 # Create your views here.
 def home(request):
@@ -51,7 +52,7 @@ class ProjectDetailView(DetailView):
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
-    fields = ['name', 'description', 'start_date', 'due_date', 'status', 'priority', 'assigned_users']
+    form_class = ProjectCreateForm
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -128,16 +129,5 @@ class TasksCompleteView(LoginRequiredMixin, UserPassesTestMixin, View):
     def post(self, request, *args, **kwargs):
         task = Tasks.objects.get(pk=self.kwargs['pk'])
         task.status = 'completed'
-        task.save()
-        return HttpResponseRedirect(reverse_lazy('project-detail', kwargs={'pk': task.project.pk}))
-
-class TasksActivateView(LoginRequiredMixin, UserPassesTestMixin, View):
-    def test_func(self):
-        task = Tasks.objects.get(pk=self.kwargs['pk'])
-        return self.request.user == task.assigned_users.first()
-
-    def post(self, request, *args, **kwargs):
-        task = Tasks.objects.get(pk=self.kwargs['pk'])
-        task.status = 'active'
         task.save()
         return HttpResponseRedirect(reverse_lazy('project-detail', kwargs={'pk': task.project.pk}))

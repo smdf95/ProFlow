@@ -1,0 +1,13 @@
+{% extends "project/base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row mb-2">
+        <div class="col">
+            <h2>{{ object.name }}</h2>
+            {% for member in object.members.all %}
+                <p>{{ member.username }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -32,8 +32,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'chat.apps.ChatConfig',
     'users.apps.UsersConfig',
     'project.apps.ProjectConfig',
+    'teams.apps.TeamsConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
@@ -125,6 +127,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
 
 
 

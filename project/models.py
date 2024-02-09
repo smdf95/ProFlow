@@ -25,7 +25,7 @@ class Tasks(models.Model):
     description = models.TextField()
     start_date = models.DateField()
     due_date = models.DateField()
-    status = models.CharField(max_length=11, choices=[('todo', 'To Do'), ('active', 'Active'), ('completed', 'Completed')])
+    status = models.CharField(max_length=11, choices=[('active', 'Active'), ('completed', 'Completed')])
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tasks')
     assigned_users = models.ManyToManyField('auth.User', related_name='assigned_tasks')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_tasks')

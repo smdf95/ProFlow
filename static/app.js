@@ -16,3 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 })
+
+
+function redirectToUrl(element) {
+    var url = element.dataset.url;
+    window.location.href = url;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    var chatMessagesDiv = document.getElementById('chat-messages');
+    chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+});

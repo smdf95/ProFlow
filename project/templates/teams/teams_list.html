@@ -1,0 +1,17 @@
+{% extends "project/base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Teams</h1>
+        {% for team in user_teams %}
+        <div class="row">
+            <a href="{% url 'team-detail' team.id %}">{{ team.name }}</a>
+            {% for member in team.members.all %}
+                {{ member.username }}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    <span class="material-symbols-outlined add" data-url="{% url 'team-create' %}" onclick="redirectToUrl(this)">
+        add_circle
+    </span>
+    </div>
+{% endblock content %}

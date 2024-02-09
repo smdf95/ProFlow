@@ -2,6 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic import (
+    ListView, 
+    DetailView, 
+    CreateView, 
+    UpdateView, 
+    DeleteView
+)
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
@@ -45,3 +52,4 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+

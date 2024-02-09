@@ -46,7 +46,7 @@
         <div class="col">
             <h3>Assigned Team Members</h3>
             {% for user in assigned_users %}
-                <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="100" height="100">
+                <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="100" height="100" alt="{{ user.username }} Profile">
                 {{ user.first_name }} {{ user.last_name }}
             {% endfor %}
         </div>
@@ -65,7 +65,7 @@
                             <h5 class="card-title">{{ task.name }}</h5>
                             <p class="card-text">{{ task.description }}</p>
                                 {% for user in task_users %}
-                                    <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="50" height="50">
+                                    <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="50" height="50" alt="{{ user.username }} Profile">
                                 {% endfor %}
                         </div>
                         {% if task.status == "active" %}
@@ -81,13 +81,6 @@
                             </div>
                             <div class="col">
                                 
-                            </div>
-                        {% elif task.status == "todo" %}
-                            <div class="col">
-                                <form method="post" action="{% url 'task-activate' task.id %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-secondary btn-sm mt-1 mb-1">Activate</button>
-                                </form>
                             </div>
                         {% endif %}
                         

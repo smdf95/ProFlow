@@ -1,0 +1,50 @@
+{% extends "project/base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            
+        </div>
+        <div class="col">
+
+            <h1>Chats</h1>
+            {% for chat in chats %}
+            <div class="card mb-3" style="max-width: 540px; cursor: pointer;" data-url="{% url 'chat-detail' chat.id %}" onclick="redirectToUrl(this)">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ chat.image.url }}" width="100" height="100" alt="{{ chat.name }} Picture">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ chat.name }}</h5>
+                        {% for user in chat.users.all %}
+                            <p class="card-text">{{ user.username }}</p>
+                        {% endfor %}
+                        <p class="card-text">
+                          <small class="text-body-secondary">
+                            {% if chat.messages.all|length > 0 %}
+                              Last message:
+                              {% if chat.time_diff %}
+                                {{ chat.time_diff }} ago
+                              {% else %}
+                                {{ chat.last_updated }}
+                              {% endif %}
+                            {% else %}
+                              No messages yet
+                            {% endif %}
+                          </small>
+                      </p>
+                      </small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    <span class="material-symbols-outlined add" data-url="{% url 'chat-create' %}" onclick="redirectToUrl(this)">
+        add_circle
+    </span>
+{% endblock content %}

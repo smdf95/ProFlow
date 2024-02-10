@@ -10,9 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-import os
 from pathlib import Path
 import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -100,10 +100,12 @@ DATABASES = {
 database_url = os.environ.get("DATABASE_URL")
 
 # If DATABASE_URL is set, update the default database configuration
-if database_url:
-    # Parse the DATABASE_URL and update the default configuration
-    db_config = dj_database_url.parse(database_url)
-    DATABASES['default'].update(db_config)
+
+# Couldn't get this to work in time
+# if database_url:
+#     # Parse the DATABASE_URL and update the default configuration
+#     db_config = dj_database_url.parse(database_url)
+#     DATABASES['default'].update(db_config)
 
 
 # Password validation

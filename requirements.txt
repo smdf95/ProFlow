@@ -5,3 +5,4 @@ dj_database_url
 gunicorn
 Pillow==10.2.0
 crispy_bootstrap5
+django_filters

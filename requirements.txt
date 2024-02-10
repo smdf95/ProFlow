@@ -4,3 +4,4 @@ django_resized==1.0.2
 dj_database_url
 gunicorn
 Pillow==10.2.0
+crispy_bootstrap5

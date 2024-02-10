@@ -12,19 +12,21 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Project, Tasks
 from .filters import ProjectFilter
-from .forms import ProjectCreateForm
+from .forms import ProjectCreateForm, TasksCreateForm
 
 # Create your views here.
-def home(request):
-    context = {
-        'projects': Project.objects.all()
-    }
-    return render(request, 'project/home.html', context)
 
-class ProjectListView(ListView):
+def home(request):
+    
+    return render(request, 'project/home.html')
+
+class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = 'project/home.html'  # <app>/<model>_<viewtype>.html
 
+    def get_queryset(self):
+        # Filter projects based on the logged-in user
+        return Project.objects.filter(assigned_users=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,10 +46,6 @@ class ProjectDetailView(DetailView):
         tasks = self.object.tasks.all()
         context['tasks'] = tasks
 
-        task_users = self.object.tasks.values_list('assigned_users', flat=True).distinct()
-        task_users = self.request.user.__class__.objects.filter(pk__in=task_users)
-        context['task_users'] = task_users
-
         return context
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -55,12 +53,23 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     form_class = ProjectCreateForm
 
     def form_valid(self, form):
-        form.instance.created_by = self.request.user
+        # Save the project instance first
+        project = form.save(commit=False)
+        project.created_by = self.request.user
+        project.save()
+
+        # Now that the project has been saved, you can add assigned users
+        team = form.cleaned_data['team']
+        if team:
+            members = team.members.all() 
+            for member in members:
+                project.assigned_users.add(member)
+        
         return super().form_valid(form)
 
 class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
-    fields = ['name', 'description', 'start_date', 'due_date', 'status', 'priority', 'assigned_users']
+    fields = ['name', 'team', 'description', 'start_date', 'due_date', 'status', 'priority']
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -84,16 +93,28 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class TasksCreateView(LoginRequiredMixin, CreateView):
     model = Tasks
-    fields = ['name', 'description', 'status', 'start_date', 'due_date', 'assigned_users']
+    form_class = TasksCreateForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['project_id'] = self.kwargs['pk']  # Pass the project ID to the form
+        return kwargs
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         form.instance.project = Project.objects.get(id=self.kwargs['pk'])
+
+       
         return super().form_valid(form)
 
 class TasksUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Tasks
-    fields = ['name', 'description', 'status', 'start_date', 'due_date', 'assigned_users']
+    form_class = TasksCreateForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['project_id'] = self.get_object().project_id 
+        return kwargs
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user

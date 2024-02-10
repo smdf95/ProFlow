@@ -2,7 +2,7 @@
     display: none;
 }
 
-.material-symbols-outlined {
+.material-symbols-outlined, .pointer {
     cursor: pointer;
 }
 
@@ -29,3 +29,4 @@
 .timestamp {
     font-size: 0.8rem;
 }
+

@@ -44,16 +44,15 @@
     </div>
     <div class="row mb-2">
         <div class="col">
-            <h3>Assigned Team Members</h3>
-            {% for user in assigned_users %}
-                <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="100" height="100" alt="{{ user.username }} Profile">
-                {{ user.first_name }} {{ user.last_name }}
-            {% endfor %}
+            <h3>Team</h3>
+            {{ object.team.name }}
+            
         </div>
     </div>
     <div class="row mb-2">
             <h3>Tasks</h3>
             {% for task in tasks %}
+
                 {% if task.status == "completed" %}
                     <div class="card mb-2 text-success">
                 {% elif task.status == "todo" %}
@@ -64,7 +63,7 @@
                         <div class="card-body col">
                             <h5 class="card-title">{{ task.name }}</h5>
                             <p class="card-text">{{ task.description }}</p>
-                                {% for user in task_users %}
+                                {% for user in task.assigned_users.all %}
                                     <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="50" height="50" alt="{{ user.username }} Profile">
                                 {% endfor %}
                         </div>

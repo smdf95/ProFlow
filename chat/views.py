@@ -22,20 +22,21 @@ from .forms import ChatCreateForm, MessageForm
 @login_required
 def home(request):
     
+    return render(request, 'chat/chats_list.html')
 
-    context = {
-        'chats': Chat.objects.all(),
-    }
-    return render(request, 'chat/chats_list.html', context)
-
-class ChatsList(ListView):
+class ChatsList(LoginRequiredMixin, ListView):
     model = Chat
     template_name = 'chat/chats_list.html'
-    context_object_name = 'chats'
+
+    def get_queryset(self):
+        # Filter projects based on the logged-in user
+        chats = Chat.objects.filter(users=self.request.user)
+        return chats
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        chats = context['chats']
+        chats = self.get_queryset()
 
         current_time = timezone.now()
 
@@ -48,6 +49,8 @@ class ChatsList(ListView):
                     chat.time_diff = None
             else:
                 chat.time_diff = None
+
+        context['chats'] = chats
 
         return context
     
@@ -91,9 +94,15 @@ class ChatCreateView(LoginRequiredMixin, CreateView):
     form_class = ChatCreateForm
     template_name = 'chat/chat_form.html'
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Pass the user object to the form
+        return kwargs
+
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+    
     
 class ChatUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Chat

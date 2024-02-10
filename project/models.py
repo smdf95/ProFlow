@@ -2,9 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from teams.models import Teams
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
+    team = models.ForeignKey(Teams, on_delete=models.CASCADE)
     description = models.TextField()
     start_date = models.DateField()
     due_date = models.DateField()

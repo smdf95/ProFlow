@@ -3,12 +3,17 @@
     <div class="container">
         <h1>Teams</h1>
         {% for team in user_teams %}
-        <div class="row">
-            <a href="{% url 'team-detail' team.id %}">{{ team.name }}</a>
-            {% for member in team.members.all %}
-                {{ member.username }}
-            {% endfor %}
-        </div>
+            <div class="col-lg-4 col-md-6 mb-4 pointer" data-url="{% url 'team-detail' team.id %}" onclick="redirectToUrl(this)">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ team.name }}</h5>
+                        <!-- Add additional team information here if available -->
+                        <!-- Example: <p class="card-text">Team Leader: {{ team.leader }}</p> -->
+                    </div>
+                    <!-- Add additional buttons or actions here if needed -->
+                    <!-- Example: <div class="card-footer"><a href="#" class="btn btn-primary">View Team</a></div> -->
+                </div>
+            </div>
         {% endfor %}
     <span class="material-symbols-outlined add" data-url="{% url 'team-create' %}" onclick="redirectToUrl(this)">
         add_circle

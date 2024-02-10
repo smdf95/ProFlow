@@ -32,22 +32,34 @@
                         {% for message in chat_messages %}
                             {% if message.user == user %}
                                 <div class="d-flex flex-row justify-content-end mb-4">
-                                    <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ message.user.profile.image.url }}" width="45px" height="45px" alt="{{ message.user.username }} Profile">
                                     <div class="p-3 me-3 bg-warning" style="border-radius: 15px;">
                                         <p class="mb-0">{{ message.content }}</p>
                                         <small class="timestamp text-muted text-end">{{ message.timestamp }}</small>
                                     </div>
+                                        <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ message.user.profile.image.url }}" width="45px" height="45px" alt="{{ message.user.username }} Profile">
                                 </div>
                             {% else %}
                                 <div class="d-flex flex-row justify-content-start mb-4">
                                     <img style="border-radius: 50%; object-fit: cover; object-position: center center;" class="rounded-circle account-img" src="{{ message.user.profile.image.url }}" width="45px" height="45px" alt="{{ message.user.username }} Profile">
                                     <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(56, 192, 237, .2);">
                                         <p class="small mb-0">{{ message.content }}</p>
+                                        <small class="timestamp text-muted">{{ message.timestamp }}</small>
                                     </div>
                                 </div>
-                                <small>{{ message.timestamp }}</small>
                                 {% endif %}
                         {% endfor %}
+                        <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="input-group mb-0">
+                                    {{ form.content }}
+                                    <div class="input-group-append">
+                                        <button class="btn btn-dark" type="submit">Send</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
 
 
                         </div>
@@ -57,24 +69,5 @@
             
         </div>
 
-    
-        
-        {% load crispy_forms_tags %}
-        <div class="row">
-            <div class="content-section">
-                <form method="POST">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">Add Message</legend>
-        
-                        {{ form|crispy }}
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit">Send</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
 {% endblock content %}
